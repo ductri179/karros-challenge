@@ -28,7 +28,7 @@ public class MetadataEntity {
     @Column(name = "name")
     private String name;
     
-    @Column(name = "description", length = 1024)
+    @Column(name = "description", length = 2048)
     private String description;
     
     @Column(name = "author")
@@ -40,6 +40,8 @@ public class MetadataEntity {
     @JoinColumn(name = "ref_gps_id")
     @OneToOne
     private GPSEntity gps;
+    
+    public MetadataEntity() {}
 
 	public MetadataEntity(Metadata metadata, GPSEntity gpsEntity) {
 		this.name = metadata.getName().isPresent() ? metadata.getName().get() : null;

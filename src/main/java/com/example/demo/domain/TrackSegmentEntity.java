@@ -34,6 +34,8 @@ public class TrackSegmentEntity {
 	@JoinColumn(name = "ref_track_id")
 	@ManyToOne
 	private TrackEntity track;
+	
+	public TrackSegmentEntity() {}
 
 	public TrackSegmentEntity(TrackSegment trackSegment, TrackEntity trackEntity) {
 		this.track = trackEntity;

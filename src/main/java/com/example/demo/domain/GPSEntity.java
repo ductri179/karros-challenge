@@ -4,12 +4,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -36,10 +39,15 @@ public class GPSEntity {
 	private String creator;
 	
 	@Column(name = "ref_user_id")
-	private int refUserId;
+	private Integer refUserId;
 	
 	@Column(name = "created_on")
 	private Date createdOn;
+	
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "gpx_file", columnDefinition="BLOB")
+	private byte[] gpxFile;
 	
 	@OneToOne(mappedBy = "gps", cascade = CascadeType.ALL)
 	private MetadataEntity metadata;
@@ -49,6 +57,8 @@ public class GPSEntity {
 	
 	@OneToMany(mappedBy = "gps", cascade = CascadeType.ALL)
 	private List<TrackEntity> tracks;
+	
+	public GPSEntity() {}
 	
 	public GPSEntity(GPX gpx) {
 		this.creator = gpx.getCreator();
@@ -121,12 +131,24 @@ public class GPSEntity {
 		this.tracks = tracks;
 	}
 
-	public int getRefUserId() {
+	public Integer getRefUserId() {
 		return refUserId;
 	}
 
-	public void setRefUserId(int refUserId) {
+	public void setRefUserId(Integer refUserId) {
 		this.refUserId = refUserId;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public byte[] getGpxFile() {
+		return gpxFile;
+	}
+
+	public void setGpxFile(byte[] gpxFile) {
+		this.gpxFile = gpxFile;
 	}
 	
 }

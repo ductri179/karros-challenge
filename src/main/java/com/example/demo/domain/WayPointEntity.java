@@ -49,6 +49,8 @@ public class WayPointEntity {
     @JoinColumn(name = "ref_track_segment_id", nullable = true)
     @ManyToOne
     private TrackSegmentEntity trackSegment;
+    
+    public WayPointEntity() {}
 
 	public WayPointEntity(WayPoint wayPoint, GPSEntity gpsEntity) {
 		this(wayPoint);

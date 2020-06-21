@@ -31,7 +31,7 @@ public class TrackEntity {
     @Column(name = "name")
     private String name;
     
-    @Column(name = "description")
+    @Column(name = "description", length = 2048)
     private String description;
     
     @Column(name = "source")
@@ -43,6 +43,8 @@ public class TrackEntity {
     
     @OneToMany(mappedBy = "track", cascade = CascadeType.ALL)
 	private List<TrackSegmentEntity> trackSegments;
+    
+    public TrackEntity() {}
 
 	public TrackEntity(Track track, GPSEntity gpsEntity) {
 		this.name = track.getName().isPresent() ? track.getName().get() : null;
