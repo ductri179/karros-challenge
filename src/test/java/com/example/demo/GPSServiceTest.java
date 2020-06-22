@@ -32,7 +32,7 @@ public class GPSServiceTest {
 	GPSService gpsService;
 	
 	
-//	@Test
+	@Test
 	public void saveGPXTest() throws IOException {
 		File file = xsdTest.getFile();
 		try (FileInputStream is = new FileInputStream(file)){
@@ -40,13 +40,13 @@ public class GPSServiceTest {
 			b = new byte[is.available()];
 			is.read(b);
 			GPX gpx = XMLUtil.parseGPX(b);
-			gpsService.save(gpx, 123);
+			gpsService.save(gpx, 123, b);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-//	@Test
+	@Test
 	public void getLatestGPSTest() {
 		LatestGPSListDTO list = gpsService.findLatest(0, 5);
 		Assert.notNull(list, "List GPS is empty");
@@ -54,12 +54,14 @@ public class GPSServiceTest {
 	
 	@Test
 	public void getOne() {
-		try {
-			GPSDTO gps = gpsService.findGPSById(1);
-			Assert.notNull(gps, "Cannot find GPS with id 0");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		GPSDTO gps = gpsService.findGPSById(1);
+		Assert.notNull(gps, "Cannot find GPS with id 1");
+	}
+	
+	@Test
+	public void getFile() {
+		byte[] file = gpsService.findGPXFileById(1);
+		Assert.notNull(file, "Cannot find GPS with id 1");
 	}
 
 }

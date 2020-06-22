@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,7 +12,6 @@ public class GPSDTO {
 	private String version;
 	private String creator;
 	private UserDTO user;
-	private Date createdOn;
 	private MetadataDTO metadata;
 	
 	private List<WayPointDTO> wayPoints;
@@ -94,12 +92,4 @@ public class GPSDTO {
 		this.user = user;
 	}
 
-	public Date getCreatedOn() {
-		return createdOn;
-	}
-
-	public void setCreatedOn(Date createdOn) {
-		this.createdOn = createdOn;
-	}
-	
 }

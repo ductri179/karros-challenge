@@ -42,7 +42,7 @@ public class GPSController {
         }
 		
 		GPX gpx = XMLUtil.parseGPX(uploadFile.getBytes());
-		gpsService.save(gpx, userId);
+		gpsService.save(gpx, userId, uploadFile.getBytes());
 		
 		return new ResponseEntity<String>("File uploaded successfully!", HttpStatus.OK);
 	}
@@ -67,6 +67,19 @@ public class GPSController {
 		}
 		
 		return new ResponseEntity<GPSDTO>(gps, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/download/{id}", method = RequestMethod.GET)
+	@ApiOperation(value = "Get GPX File by id")
+	public ResponseEntity<?> download(@PathVariable("id") Integer id) {
+		
+		byte[] file = gpsService.findGPXFileById(id);
+		
+		if (file == null) {
+			return new ResponseEntity<String>("GPS not found", HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<byte[]>(file, HttpStatus.OK);
 	}
 	
 }

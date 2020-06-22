@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -38,14 +39,17 @@ public class GPSServiceImpl implements GPSService {
 	 *
 	 */
 	@Override
-	public void save(GPX gpx, int userId) {
+	public void save(GPX gpx, int userId, byte[] gpxFile) {
 		
 		// Init GPS Entity by given GPX Object
 		GPSEntity gpsEntity = new GPSEntity(gpx);
+		
+		// Set gpx File
+		gpsEntity.setGpxFile(gpxFile);
 
 		// Set user id to GPS Entity
-		UserEntity user = this.userEntityRepository.findOne(userId);
-		if (user != null) {
+		Optional<UserEntity> user = this.userEntityRepository.findById(userId);
+		if (user.isPresent()) {
 			gpsEntity.setRefUserId(userId);
 		}
 		
@@ -55,7 +59,7 @@ public class GPSServiceImpl implements GPSService {
 	@Override
 	@Transactional
 	public LatestGPSListDTO findLatest(int page, int size) {
-		Pageable sortedByCreatedDate = new PageRequest(page, size, new Sort(Direction.DESC, "createdOn"));
+		Pageable sortedByCreatedDate = PageRequest.of(page, size, Sort.by(Direction.DESC, "createdOn"));
 		Page<GPSEntity> findAll = gpsEntityRepository.findAll(sortedByCreatedDate);
 		
 		List<GPSDTO> data = null;
@@ -63,7 +67,8 @@ public class GPSServiceImpl implements GPSService {
 			data = findAll.getContent().stream().map(s -> {
 				UserEntity userEntity = null;
 				if (s.getRefUserId() != null) {
-					userEntity = userEntityRepository.findOne(s.getRefUserId());
+					Optional<UserEntity> user = userEntityRepository.findById(s.getRefUserId());
+					userEntity = user.isPresent() ? user.get() : null;
 				}
 				return new GPSDTO(s, userEntity);
 			}).collect(Collectors.toList());
@@ -81,12 +86,26 @@ public class GPSServiceImpl implements GPSService {
 		if (id == null) {
 			return null;
 		}
-		GPSEntity gps = gpsEntityRepository.findOne(id);
+		Optional<GPSEntity> gps = gpsEntityRepository.findById(id);
 		UserEntity userEntity = null;
-		if (gps != null && gps.getRefUserId() != null) {
-			userEntity = userEntityRepository.findOne(gps.getRefUserId());
+		if (gps.isPresent() && gps.get().getRefUserId() != null) {
+			Optional<UserEntity> user = userEntityRepository.findById(gps.get().getRefUserId());
+			userEntity = user.isPresent() ? user.get() : null;
 		}
-		return new GPSDTO(gps, userEntity);
+		return new GPSDTO(gps.get(), userEntity);
+	}
+
+	@Override
+	@Transactional
+	public byte[] findGPXFileById(Integer id) {
+		
+		Optional<GPSEntity> gps = gpsEntityRepository.findById(id);
+		
+		if (gps.isPresent()) {
+			return gps.get().getGpxFile();
+		}
+		
+		return null;
 	}
 
 }
