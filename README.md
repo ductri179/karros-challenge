@@ -1,23 +1,21 @@
 
-## A Story of Passionate Software Engineer
-You have an idea develop a website which allow users to store and share GPS track online (similar to http://www.trackprofiler.com/track/index). After discussion with your team, they helped you to came up with some mock-up files. 
-Front-end side will be developed by another team member. You are the only one who is going to be in charge of the backend service development.
+# Karros Challenge
 
-Because you are so excited to show the idea to your CEO, you decided to reduce the scope and focus one developing 1 WS API with three endpoints:
+This is a demo project using in Karros interview process. 
 
-- An endpoint that allow users to upload "gpx" file and store mandatory information such as "metadata, waypoint, track" 
-- An endpoint to return a list of "Latest track" from our users
-- An endpoint to allow users to view details of their gpx file
+## 1. URLs
+The service has been deployed to AWS and URLs below can be used to test the functions of the project.
+- Swagger: http://52.221.205.131:8080/demo/swagger-ui.html
+- H2 console: http://52.221.205.131:8080/demo/h2-console
+  - JDBC URL: ``jdbc:h2:/data/demo1``
+  - Username: ``sa``
+  - Password: ``password``
+## 2. Endpoints        
+The service has 4 endpoints:
+- Upload GPX file
+- Get latest tracks
+- View GPS info by ID
+- Download GPX file by ID
+## 3. System Diagram
 
-Although this is a prototype version, but you are a professional software engineer. You don't allow yourself to code without a System Diagram or Workflow Diagram, or produce "dirty-code" and code without Unit Tests. Additionally, since this is a fairly small and simple project, you are not allowed to use the Lombok library.
-
-Once your have completed your solution, please upload them to Github.
-
-This is all you have right now: 
-
-- https://en.wikipedia.org/wiki/GPS_Exchange_Format
-- Mock-up files
-- A sample gpx file
-- A passionate heart, if you don't like the given mock-up files, feel free to change and show your CEO a better version
-- Your team is a big fan of "Spring IO" tech stack, so they prefers you use Sprint Boot as a starting point
-- An in-memory database is enough for this moment (H2)
+![Screen-Shot-2020-06-23-at-21.28.32.png](https://www.upsieutoc.com/images/2020/06/23/Screen-Shot-2020-06-23-at-21.28.32.png)
