@@ -150,5 +150,13 @@ public class GPSEntity {
 	public void setGpxFile(byte[] gpxFile) {
 		this.gpxFile = gpxFile;
 	}
+
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
 	
 }
